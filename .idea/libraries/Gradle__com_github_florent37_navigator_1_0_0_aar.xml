@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.florent37:navigator:1.0.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d1d4dd88e55b9ed9aea7233e2fb4534/jetified-navigator-1.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d1d4dd88e55b9ed9aea7233e2fb4534/jetified-navigator-1.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d1d4dd88e55b9ed9aea7233e2fb4534/jetified-navigator-1.0.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.florent37/navigator/1.0.0/3126173b4c2708bc072fa08774704ed4fa5290b5/navigator-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

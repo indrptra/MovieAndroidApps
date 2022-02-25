@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.florent37:applicationprovider:1.0.4@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b0d1b273132a2969efa069c1741d3758/jetified-applicationprovider-1.0.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b0d1b273132a2969efa069c1741d3758/jetified-applicationprovider-1.0.4/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b0d1b273132a2969efa069c1741d3758/jetified-applicationprovider-1.0.4/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.florent37/applicationprovider/1.0.4/c72d820cd1916f5daa346b1f9af018b79bcdab0f/applicationprovider-1.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

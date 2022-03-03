@@ -54,7 +54,7 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl("https://newsapi.org/v2/")
+        .baseUrl("https:///api.themoviedb.org/3/")
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
@@ -63,5 +63,4 @@ class ApplicationModule {
     @Singleton
     fun provideNewsApiServices(retrofit: Retrofit): NewsApiServices =
         retrofit.create(NewsApiServices::class.java)
-
 }

@@ -34,7 +34,6 @@ class ActivityModule {
         return NewsLocalDatasourceImpl(appDatabase)
     }
 
-
     @Provides
     @ActivityScoped
     fun provideNetworkChecker(@ApplicationContext ctx: Context): NetworkChecker {

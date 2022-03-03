@@ -7,6 +7,7 @@ import com.movieapps.mobile.coreandroid.network.NetworkChecker
 import com.movieapps.mobile.data.datasource.local.NewsLocalDatasource
 import com.movieapps.mobile.data.datasource.remote.NewsRemoteDatasource
 import com.movieapps.mobile.domain.entity.News
+import com.movieapps.mobile.domain.entity.PopularMovieList
 import com.movieapps.mobile.utility.ThreadInfoLogger
 import java.io.IOException
 import javax.inject.Inject
@@ -41,6 +42,108 @@ class NewsRepositoryImpl @Inject constructor(
                 } else {
                     Either.Right(localNews)
                 }
+            }
+        } catch (ex: IOException) {
+            Either.Left(Failure.ServerError(ex.localizedMessage))
+        }
+    }
+
+    override suspend fun getPopularMovie(page: Int): Either<Failure, List<PopularMovieList>> {
+        return try {
+            if (networkChecker.isNetworkConnected()) {
+                d { "connection : connect to internet" }
+                // connected to internet
+                ThreadInfoLogger.logThreadInfo("get top headlines repository")
+                val response = remote.getPopularMovie(page = 1)
+
+                local.insertPopularMovie(response)
+
+                Either.Right(response)
+            } else {
+                Either.Left(Failure.LocalDataNotFound)
+            }
+        } catch (ex: IOException) {
+            Either.Left(Failure.ServerError(ex.localizedMessage))
+        }
+    }
+
+    override suspend fun getTopRatedMovie(page: Int): Either<Failure, List<PopularMovieList>> {
+        return try {
+            if (networkChecker.isNetworkConnected()) {
+                d { "connection : connect to internet" }
+                // connected to internet
+                ThreadInfoLogger.logThreadInfo("get top headlines repository")
+                val response = remote.getTopRatedMovie(page = 1)
+
+                local.insertPopularMovie(response)
+
+                Either.Right(response)
+            } else {
+                Either.Left(Failure.LocalDataNotFound)
+            }
+        } catch (ex: IOException) {
+            Either.Left(Failure.ServerError(ex.localizedMessage))
+        }
+    }
+
+    override suspend fun getNowPlayingMovie(page: Int): Either<Failure, List<PopularMovieList>> {
+        return try {
+            if (networkChecker.isNetworkConnected()) {
+                d { "connection : connect to internet" }
+                // connected to internet
+                ThreadInfoLogger.logThreadInfo("get top headlines repository")
+                val response = remote.getNowPlayingMovie(page = 1)
+
+                local.insertPopularMovie(response)
+
+                Either.Right(response)
+            } else {
+                Either.Left(Failure.LocalDataNotFound)
+            }
+        } catch (ex: IOException) {
+            Either.Left(Failure.ServerError(ex.localizedMessage))
+        }
+    }
+
+    override suspend fun getReviewMovie(page: Int, id: String): Either<Failure, List<PopularMovieList>> {
+        return try {
+            if (networkChecker.isNetworkConnected()) {
+                d { "connection : connect to internet" }
+                // connected to internet
+                ThreadInfoLogger.logThreadInfo("get top headlines repository")
+                val response = remote.getReviewMovie(page = 1, id = id)
+
+                local.insertPopularMovie(response)
+
+                Either.Right(response)
+            } else {
+                Either.Left(Failure.LocalDataNotFound)
+            }
+        } catch (ex: IOException) {
+            Either.Left(Failure.ServerError(ex.localizedMessage))
+        }
+    }
+
+    override suspend fun getFavoriteMovie(): Either<Failure, List<PopularMovieList>> {
+        return try {
+            val localFavorite = local.getAllFavorite()
+            if (localFavorite.isEmpty()) {
+                Either.Left(Failure.LocalDataNotFound)
+            } else {
+                Either.Right(localFavorite)
+            }
+        } catch (ex: IOException) {
+            Either.Left(Failure.ServerError(ex.localizedMessage))
+        }
+    }
+
+    override suspend fun getItemFavoriteMovie(id: String): Either<Failure, List<PopularMovieList>> {
+        return try {
+            val localFavorite = local.getItemFavorite(id)
+            if (localFavorite == null) {
+                Either.Left(Failure.LocalDataNotFound)
+            } else {
+                Either.Right(localFavorite)
             }
         } catch (ex: IOException) {
             Either.Left(Failure.ServerError(ex.localizedMessage))

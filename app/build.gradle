@@ -92,6 +92,7 @@ dependencies {
     implementation AndroidLib.hilt
     kapt AndroidLib.hilt_processor_compiler
 
+
     def fragment_version = "1.2.5"
 
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"

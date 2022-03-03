@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_listNewsFragment_to_detailNewsFragment"
             app:destination="@id/detailNewsFragment" />
+        <action
+            android:id="@+id/action_listNewsFragment_to_favoriteMovieFragment"
+            app:destination="@id/favoriteMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailNewsFragment"
@@ -20,8 +23,14 @@
         android:label="fragment_detail_news"
         tools:layout="@layout/fragment_detail_news" >
         <argument
-            android:name="newsDto"
-            app:argType="com.movieapps.mobile.ui.dto.NewsDto"
+            android:name="movieDto"
+            app:argType="com.movieapps.mobile.ui.dto.PopularMovieListDTO"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteMovieFragment"
+        android:name="com.movieapps.mobile.ui.homepage.FavoriteMovieFragment"
+        android:label="fragment_favorite_movie"
+        tools:layout="@layout/fragment_list_news" >
     </fragment>
 </navigation>

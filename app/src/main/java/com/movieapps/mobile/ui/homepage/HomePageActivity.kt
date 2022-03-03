@@ -15,5 +15,4 @@ class HomePageActivity : BaseActivityBinding<ActivityHomeBinding>() {
     override fun setupView(binding: ActivityHomeBinding) {
         d { "setup view" }
     }
-
 }

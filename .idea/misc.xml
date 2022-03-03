@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.1275" />
+        <entry key="app/src/main/res/drawable/ic_heart_selected.xml" value="0.1275" />
+        <entry key="app/src/main/res/drawable/ic_heart_unselected.xml" value="0.1275" />
+        <entry key="app/src/main/res/drawable/ic_heart_white.xml" value="0.1275" />
+        <entry key="app/src/main/res/drawable/ic_share.xml" value="0.1275" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/fragment_detail_news.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/fragment_list_news.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/rv_item_favorite.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/rv_item_news.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/rv_item_popular.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/rv_item_popular_list.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/rv_item_review.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/rv_item_top_rated_now_playing.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/rv_top_rated_now_playing.xml" value="0.18" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

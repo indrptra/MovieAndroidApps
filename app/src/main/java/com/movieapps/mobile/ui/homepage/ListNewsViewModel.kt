@@ -33,7 +33,6 @@ class ListNewsViewModel @Inject constructor(private val getTopHeadlineUseCase: G
                     }
                     else -> uiState.postValue(ListNewsState.Error("Unknown Error"))
                 }
-
             }, { result ->
                 if (!result.isNullOrEmpty()) {
                     uiState.postValue(ListNewsState.NewsLoaded(result))
@@ -41,5 +40,4 @@ class ListNewsViewModel @Inject constructor(private val getTopHeadlineUseCase: G
             })
         }
     }
-
 }

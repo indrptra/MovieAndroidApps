@@ -1,23 +1,44 @@
 package com.movieapps.mobile.ui.detailpage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.navArgs
+import com.movieapps.mobile.R
 import com.movieapps.mobile.coreandroid.base.BaseFragmentBinding
+import com.movieapps.mobile.coreandroid.extensions.loadFromUrl
+import com.movieapps.mobile.coreandroid.extensions.toGone
+import com.movieapps.mobile.coreandroid.extensions.toVisible
 import com.movieapps.mobile.databinding.FragmentDetailNewsBinding
-import com.movieapps.mobile.ui.dto.NewsDto
+import com.movieapps.mobile.domain.entity.PopularMovieList
+import com.movieapps.mobile.ui.detailpage.rvitem.ReviewItem
+import com.movieapps.mobile.ui.dto.PopularMovieListDTO
+import com.movieapps.mobile.ui.homepage.MovieViewModel
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class DetailNewsFragment : BaseFragmentBinding<FragmentDetailNewsBinding>() {
+@AndroidEntryPoint
+class DetailNewsFragment :
+    BaseFragmentBinding<FragmentDetailNewsBinding>(),
+    ReviewItem.reviewListener {
 
     private val args: DetailNewsFragmentArgs by navArgs()
 
-    private var newsDto: NewsDto? = null
+    private var movieDto: PopularMovieListDTO? = null
+
+    private val listReviewAdapter = GroupAdapter<GroupieViewHolder>()
+
+    @Inject
+    lateinit var movieViewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        newsDto = args.newsDto
+        movieDto = args.movieDto
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailNewsBinding
@@ -25,9 +46,67 @@ class DetailNewsFragment : BaseFragmentBinding<FragmentDetailNewsBinding>() {
 
     override fun setupView(binding: FragmentDetailNewsBinding) {
         with(binding) {
-            newsDto?.let {
-                newsTitle.text = it.title
+            rvListReview.adapter = listReviewAdapter
+            movieDto?.let {
+                var path = "https://image.tmdb.org/t/p/original${it.poster_path}"
+                tvTitle.text = it.title
+                tvSubTitle.text = it.title
+                tvSubDesc.text = it.overview
+                ivContent.loadFromUrl(path)
+                ivBack.setOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
+                tvDetail.setOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
+                ivShare.setOnClickListener { share() }
+                ivFavorite.setOnClickListener {  }
+                callData(it.id)
             }
+            movieViewModel.uiState().observe(viewLifecycleOwner, { state ->
+                when (state) {
+                    is MovieViewModel.PopularMovieState.LoadingReview -> {
+                        loadingIndicator.toVisible()
+                    }
+                    is MovieViewModel.PopularMovieState.ReviewMovieLoaded -> {
+                        state.ReviewMovie.map {
+                            listReviewAdapter.add(ReviewItem(it, this@DetailNewsFragment))
+                        }
+                        movieViewModel.getItemFavoriteMovie(movieDto?.id ?: "")
+                    }
+                    is MovieViewModel.PopularMovieState.ItemFavoriteMovieLoaded -> {
+                        loadingIndicator.toGone()
+                        binding.ivFavorite.setImageResource(R.drawable.ic_heart_selected)
+                    }
+                    is MovieViewModel.PopularMovieState.ItemFavoriteError -> {
+                        loadingIndicator.toGone()
+                    }
+                    is MovieViewModel.PopularMovieState.ReviewError -> {
+                        loadingIndicator.toGone()
+                    }
+                }
+            })
         }
+    }
+    private fun callData(id: String) {
+        movieViewModel.getReviewMovie(page = 1, id)
+    }
+
+    private fun share() {
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.putExtra(Intent.EXTRA_TEXT, "https://www.themoviedb.org/")
+        intent.type = "text/plain"
+        startActivity(Intent.createChooser(intent, "Share To:"))
+    }
+
+    override fun onReviewMovieSelected(item: PopularMovieList) {}
+
+    override fun onResume() {
+        super.onResume()
+        val supportActionBar: ActionBar? = (requireActivity() as AppCompatActivity).supportActionBar
+        if (supportActionBar != null) supportActionBar.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val supportActionBar: ActionBar? = (requireActivity() as AppCompatActivity).supportActionBar
+        if (supportActionBar != null) supportActionBar.show()
     }
 }

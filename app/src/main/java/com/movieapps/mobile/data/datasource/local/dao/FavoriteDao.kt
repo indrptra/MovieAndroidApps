@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.movieapps.mobile.data.datasource.local.entity.FavoriteMovieEntity
-import com.movieapps.mobile.data.datasource.local.entity.NewsEntity
 
 @Dao
 interface FavoriteDao {

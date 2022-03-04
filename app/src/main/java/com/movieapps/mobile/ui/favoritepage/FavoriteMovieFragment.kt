@@ -94,7 +94,7 @@ class FavoriteMovieFragment :
     override fun onFavoriteMovieSelected(item: PopularMovieList) {
         requireActivity().onBackPressedDispatcher.onBackPressed()
         findNavController().navigate(
-            ListNewsFragmentDirections.actionListNewsFragmentToDetailNewsFragment(
+            ListMovieFragmentDirections.actionListNewsFragmentToDetailNewsFragment(
                 item.toDto()
             )
         )

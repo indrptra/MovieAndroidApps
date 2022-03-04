@@ -1,7 +1,7 @@
 package com.movieapps.mobile.ui.homepage
 
-import com.movieapps.mobile.data.repository.NewsRepository
-import com.movieapps.mobile.domain.usecase.GetTopHeadlineUseCase
+import com.movieapps.mobile.data.repository.MovieRepository
+import com.movieapps.mobile.domain.usecase.GetMovieUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,12 +12,12 @@ import dagger.hilt.android.components.ActivityComponent
 class HomePageModule {
 
     @Provides
-    fun provideTopHeadLineUseCase(repository: NewsRepository): GetTopHeadlineUseCase {
-        return GetTopHeadlineUseCase(repository)
+    fun provideMovieUseCase(repository: MovieRepository): GetMovieUseCase {
+        return GetMovieUseCase(repository)
     }
 
     @Provides
-    fun provideListNewsViewModel(useCase: GetTopHeadlineUseCase): ListNewsViewModel {
-        return ListNewsViewModel(useCase)
+    fun provideMovieViewModel(useCase: GetMovieUseCase): MovieViewModel {
+        return MovieViewModel(useCase)
     }
 }

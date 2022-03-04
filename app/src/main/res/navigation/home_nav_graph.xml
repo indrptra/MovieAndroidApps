@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listNewsFragment"
-        android:name="com.movieapps.mobile.ui.homepage.ListNewsFragment"
+        android:name="com.movieapps.mobile.ui.homepage.ListMovieFragment"
         android:label="fragment_list_news"
         tools:layout="@layout/fragment_list_news" >
         <action

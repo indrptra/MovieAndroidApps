@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.viewbinding.BuildConfig
 import com.movieapps.mobile.data.datasource.local.db.AppDatabase
 import com.movieapps.mobile.data.datasource.remote.interceptor.HeaderInterceptor
-import com.movieapps.mobile.data.datasource.remote.service.NewsApiServices
+import com.movieapps.mobile.data.datasource.remote.service.MovieApiServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,6 +61,6 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideNewsApiServices(retrofit: Retrofit): NewsApiServices =
-        retrofit.create(NewsApiServices::class.java)
+    fun provideMovieApiServices(retrofit: Retrofit): MovieApiServices =
+        retrofit.create(MovieApiServices::class.java)
 }

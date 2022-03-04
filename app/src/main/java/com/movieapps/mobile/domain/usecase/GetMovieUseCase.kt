@@ -3,14 +3,14 @@ package com.movieapps.mobile.domain.usecase
 import com.movieapps.mobile.coreandroid.exception.Failure
 import com.movieapps.mobile.coreandroid.functional.Either
 import com.movieapps.mobile.coreandroid.usecase.UseCase
-import com.movieapps.mobile.data.repository.NewsRepository
+import com.movieapps.mobile.data.repository.MovieRepository
 import com.movieapps.mobile.domain.entity.PopularMovieList
 import com.movieapps.mobile.utility.ThreadInfoLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetMovieUseCase @Inject constructor(private val repository: NewsRepository) :
+class GetMovieUseCase @Inject constructor(private val repository: MovieRepository) :
     UseCase<List<PopularMovieList>, GetMovieUseCase.MovieParam>() {
 
     override suspend fun run(params: MovieParam): Either<Failure, List<PopularMovieList>> =

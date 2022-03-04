@@ -2,7 +2,7 @@ package com.movieapps.mobile.domain.usecase
 
 import com.movieapps.mobile.coreandroid.exception.Failure
 import com.movieapps.mobile.coreandroid.functional.Either
-import com.movieapps.mobile.data.repository.NewsRepository
+import com.movieapps.mobile.data.repository.MovieRepository
 import com.movieapps.mobile.domain.entity.News
 import com.movieapps.mobile.domain.entity.NewsSource
 import io.mockk.MockKAnnotations
@@ -28,21 +28,21 @@ class GetTopHeadlineUseCaseTest {
     private val testScope = TestCoroutineScope(testDispatcher)
 
     @MockK
-    lateinit var newsRepo: NewsRepository
+    lateinit var movieRepo: MovieRepository
 
     lateinit var useCase: GetTopHeadlineUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        useCase = GetTopHeadlineUseCase(newsRepo)
+        useCase = GetTopHeadlineUseCase(movieRepo)
     }
 
     @Test
     fun `test usecaseRun return failure`() {
         // given
         coEvery {
-            newsRepo.getTopHeadlines(
+            movieRepo.getTopHeadlines(
                 country = "us",
                 category = "tech"
             )
@@ -60,7 +60,7 @@ class GetTopHeadlineUseCaseTest {
     fun `test usecaseRun return value`() {
         // given
         coEvery {
-            newsRepo.getTopHeadlines(
+            movieRepo.getTopHeadlines(
                 country = "us",
                 category = "tech"
             )

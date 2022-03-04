@@ -16,21 +16,35 @@ class MovieViewModel @Inject constructor(private val movieUseCase: GetMovieUseCa
         object Loading : PopularMovieState()
         data class MovieLoaded(val movie: List<PopularMovieList>) : PopularMovieState()
         data class Error(val message: String) : PopularMovieState()
+
         object LoadingTopRated : PopularMovieState()
         data class TopRatedMovieLoaded(val topMovie: List<PopularMovieList>) : PopularMovieState()
         data class TopRatedError(val topRatedMessage: String) : PopularMovieState()
+
         object LoadingNowPlaying : PopularMovieState()
         data class NowPlayingMovieLoaded(val playingMovie: List<PopularMovieList>) : PopularMovieState()
         data class NowPlayingError(val playingMessage: String) : PopularMovieState()
+
         object LoadingReview : PopularMovieState()
         data class ReviewMovieLoaded(val ReviewMovie: List<PopularMovieList>) : PopularMovieState()
         data class ReviewError(val ReviewMessage: String) : PopularMovieState()
+
         object LoadingFavorite : PopularMovieState()
         data class FavoriteMovieLoaded(val FavoriteMovie: List<PopularMovieList>) : PopularMovieState()
         data class FavoriteError(val FavoriteMessage: String) : PopularMovieState()
+
         object LoadingItemFavorite : PopularMovieState()
         data class ItemFavoriteMovieLoaded(val ItemFavoriteMovie: List<PopularMovieList>) : PopularMovieState()
+        data class IsItemFavoriteMovieLoaded(val isLoaded: Boolean) : PopularMovieState()
         data class ItemFavoriteError(val ItemFavoriteMessage: String) : PopularMovieState()
+
+        object LoadingSetItemFavorite : PopularMovieState()
+        data class SetItemFavoriteMovieLoaded(val SetItemFavoriteMovie: List<PopularMovieList>) : PopularMovieState()
+        data class SetItemFavoriteError(val SetItemFavoriteMessage: String) : PopularMovieState()
+
+        object LoadingDeleteItemFavorite : PopularMovieState()
+        data class deleteItemFavoriteMovieLoaded(val deleteItemFavoriteMovie: List<PopularMovieList>) : PopularMovieState()
+        data class deleteItemFavoriteError(val deleteItemFavoriteMessage: String) : PopularMovieState()
     }
 
     fun getPopularMovie(page: Int) {
@@ -162,6 +176,50 @@ class MovieViewModel @Inject constructor(private val movieUseCase: GetMovieUseCa
             }, { result ->
                 if (!result.isNullOrEmpty()) {
                     uiState.postValue(PopularMovieState.ItemFavoriteMovieLoaded(result))
+                } else {
+                    uiState.postValue(PopularMovieState.IsItemFavoriteMovieLoaded(false))
+                }
+            })
+        }
+    }
+    fun setItemFavoriteMovie(data: PopularMovieList) {
+        viewModelScope.launch {
+            uiState.postValue(PopularMovieState.LoadingSetItemFavorite)
+
+            val result =
+                movieUseCase.run(GetMovieUseCase.MovieParam(1, 6, data = data))
+
+            result.fold({ failure ->
+                when (failure) {
+                    is Failure.ServerError -> {
+                        uiState.postValue(PopularMovieState.SetItemFavoriteError("Server Error"))
+                    }
+                    else -> uiState.postValue(PopularMovieState.SetItemFavoriteError("Unknown Error"))
+                }
+            }, { result ->
+                if (!result.isNullOrEmpty()) {
+                    uiState.postValue(PopularMovieState.SetItemFavoriteMovieLoaded(result))
+                }
+            })
+        }
+    }
+    fun deleteItemFavoriteMovie(data: PopularMovieList) {
+        viewModelScope.launch {
+            uiState.postValue(PopularMovieState.LoadingDeleteItemFavorite)
+
+            val result =
+                movieUseCase.run(GetMovieUseCase.MovieParam(1, 7, data = data))
+
+            result.fold({ failure ->
+                when (failure) {
+                    is Failure.ServerError -> {
+                        uiState.postValue(PopularMovieState.deleteItemFavoriteError("Server Error"))
+                    }
+                    else -> uiState.postValue(PopularMovieState.deleteItemFavoriteError("Unknown Error"))
+                }
+            }, { result ->
+                if (!result.isNullOrEmpty()) {
+                    uiState.postValue(PopularMovieState.deleteItemFavoriteMovieLoaded(result))
                 }
             })
         }

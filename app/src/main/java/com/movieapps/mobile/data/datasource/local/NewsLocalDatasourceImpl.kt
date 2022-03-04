@@ -48,11 +48,16 @@ class NewsLocalDatasourceImpl(private val appDatabase: AppDatabase) : NewsLocalD
     override suspend fun getItemFavorite(id: String): List<PopularMovieList> {
         val localMovie = appDatabase.favoriteDao().getItemFavoriteMovie(id = id)
         val listMovie = mutableListOf<PopularMovieList>()
-        listMovie.add(localMovie.toMovieList())
+        if (localMovie != null) listMovie.add(localMovie.toMovieList())
         return listMovie
     }
 
     override suspend fun deleteFavorite(popularMovie: PopularMovieList) {
-        appDatabase.favoriteDao().deleteFavoriteMovie(popularMovie.toFavoriteEntity())
+        val localMovie = appDatabase.favoriteDao().getAllFavoriteMovie()
+        localMovie.map {
+            if (it?.movieId.equals(popularMovie.id)) {
+                appDatabase.favoriteDao().deleteFavoriteMovie(it)
+            }
+        }
     }
 }

@@ -30,6 +30,7 @@ class DetailNewsFragment :
     private val args: DetailNewsFragmentArgs by navArgs()
 
     private var movieDto: PopularMovieListDTO? = null
+    private var isFavoriteStatus = false
 
     private val listReviewAdapter = GroupAdapter<GroupieViewHolder>()
 
@@ -56,7 +57,6 @@ class DetailNewsFragment :
                 ivBack.setOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
                 tvDetail.setOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
                 ivShare.setOnClickListener { share() }
-                ivFavorite.setOnClickListener {  }
                 callData(it.id)
             }
             movieViewModel.uiState().observe(viewLifecycleOwner, { state ->
@@ -72,13 +72,89 @@ class DetailNewsFragment :
                     }
                     is MovieViewModel.PopularMovieState.ItemFavoriteMovieLoaded -> {
                         loadingIndicator.toGone()
+                        isFavoriteStatus = true
                         binding.ivFavorite.setImageResource(R.drawable.ic_heart_selected)
+                        ivFavorite.setOnClickListener {
+                            movieDto.let {
+                                movieViewModel.deleteItemFavoriteMovie(
+                                    PopularMovieList(
+                                        id = it?.id ?: "", poster_path = it?.poster_path ?: "", overview = it?.overview ?: "",
+                                        title = it?.title ?: "", content = "", author = it?.author ?: ""
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    is MovieViewModel.PopularMovieState.SetItemFavoriteMovieLoaded -> {
+                        isFavoriteStatus = true
+                        binding.ivFavorite.setImageResource(R.drawable.ic_heart_selected)
+                        ivFavorite.setOnClickListener {
+                            movieDto.let {
+                                movieViewModel.deleteItemFavoriteMovie(
+                                    PopularMovieList(
+                                        id = it?.id ?: "", poster_path = it?.poster_path ?: "", overview = it?.overview ?: "",
+                                        title = it?.title ?: "", content = "", author = it?.author ?: ""
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    is MovieViewModel.PopularMovieState.deleteItemFavoriteMovieLoaded -> {
+                        isFavoriteStatus = false
+                        ivFavorite.setOnClickListener {
+                            movieDto.let {
+                                movieViewModel.setItemFavoriteMovie(
+                                    PopularMovieList(
+                                        id = it?.id ?: "", poster_path = it?.poster_path ?: "", overview = it?.overview ?: "",
+                                        title = it?.title ?: "", content = "", author = it?.author ?: ""
+                                    )
+                                )
+                            }
+                        }
+                        binding.ivFavorite.setImageResource(R.drawable.ic_heart_unselected)
+                    }
+                    is MovieViewModel.PopularMovieState.SetItemFavoriteError -> {
+                        isFavoriteStatus = false
+                        ivFavorite.setOnClickListener {
+                            movieDto.let {
+                                movieViewModel.setItemFavoriteMovie(
+                                    PopularMovieList(
+                                        id = it?.id ?: "", poster_path = it?.poster_path ?: "", overview = it?.overview ?: "",
+                                        title = it?.title ?: "", content = "", author = it?.author ?: ""
+                                    )
+                                )
+                            }
+                        }
+                        binding.ivFavorite.setImageResource(R.drawable.ic_heart_unselected)
+                    }
+                    is MovieViewModel.PopularMovieState.deleteItemFavoriteError -> {
                     }
                     is MovieViewModel.PopularMovieState.ItemFavoriteError -> {
                         loadingIndicator.toGone()
                     }
                     is MovieViewModel.PopularMovieState.ReviewError -> {
                         loadingIndicator.toGone()
+                    }
+                    is MovieViewModel.PopularMovieState.IsItemFavoriteMovieLoaded -> {
+                        loadingIndicator.toGone()
+                        if (state.isLoaded) {
+                            isFavoriteStatus = true
+                            ivFavorite.setOnClickListener { }
+                            binding.ivFavorite.setImageResource(R.drawable.ic_heart_selected)
+                        } else {
+                            isFavoriteStatus = false
+                            ivFavorite.setOnClickListener {
+                                movieDto.let {
+                                    movieViewModel.setItemFavoriteMovie(
+                                        PopularMovieList(
+                                            id = it?.id ?: "", poster_path = it?.poster_path ?: "", overview = it?.overview ?: "",
+                                            title = it?.title ?: "", content = "", author = it?.author ?: ""
+                                        )
+                                    )
+                                }
+                            }
+                            binding.ivFavorite.setImageResource(R.drawable.ic_heart_unselected)
+                        }
                     }
                 }
             })

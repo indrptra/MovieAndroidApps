@@ -149,4 +149,34 @@ class NewsRepositoryImpl @Inject constructor(
             Either.Left(Failure.ServerError(ex.localizedMessage))
         }
     }
+
+    override suspend fun setItemFavoriteMovie(data: PopularMovieList): Either<Failure, List<PopularMovieList>> {
+        return try {
+            val localFavorite = local.insertFavoriteMovie(data)
+            val listMovie = mutableListOf<PopularMovieList>()
+            listMovie.add(data)
+            if (localFavorite == null) {
+                Either.Left(Failure.LocalDataNotFound)
+            } else {
+                Either.Right(listMovie)
+            }
+        } catch (ex: IOException) {
+            Either.Left(Failure.ServerError(ex.localizedMessage))
+        }
+    }
+
+    override suspend fun deleteItemFavoriteMovie(data: PopularMovieList): Either<Failure, List<PopularMovieList>> {
+        return try {
+            val localFavorite = local.deleteFavorite(data)
+            val listMovie = mutableListOf<PopularMovieList>()
+            listMovie.add(data)
+            if (localFavorite == null) {
+                Either.Left(Failure.LocalDataNotFound)
+            } else {
+                Either.Right(listMovie)
+            }
+        } catch (ex: IOException) {
+            Either.Left(Failure.ServerError(ex.localizedMessage))
+        }
+    }
 }

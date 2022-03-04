@@ -13,4 +13,6 @@ interface NewsRepository {
     suspend fun getReviewMovie(page: Int, id: String): Either<Failure, List<PopularMovieList>>
     suspend fun getFavoriteMovie(): Either<Failure, List<PopularMovieList>>
     suspend fun getItemFavoriteMovie(id: String): Either<Failure, List<PopularMovieList>>
+    suspend fun setItemFavoriteMovie(data: PopularMovieList): Either<Failure, List<PopularMovieList>>
+    suspend fun deleteItemFavoriteMovie(data: PopularMovieList): Either<Failure, List<PopularMovieList>>
 }

@@ -2,6 +2,7 @@ package com.movieapps.mobile.ui.homepage
 
 import android.content.SharedPreferences
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -53,10 +54,16 @@ class FavoriteMovieFragment :
                     state.FavoriteMovie.map {
                         listAdapter.add(FavoriteItem(it, this@FavoriteMovieFragment))
                     }
+                    if (listAdapter.itemCount == 0) {
+                        binding.emptyView.visibility = View.VISIBLE
+                    } else {
+                        binding.emptyView.visibility = View.GONE
+                    }
                 }
                 is MovieViewModel.PopularMovieState.FavoriteError -> {
                     loadingIndicator.toGone()
                     swipeRefreshLayout.isRefreshing = false
+                    binding.emptyView.visibility = View.VISIBLE
                     state.FavoriteMessage.map {
                         d {
                             "error : $it"
@@ -85,6 +92,7 @@ class FavoriteMovieFragment :
     }
 
     override fun onFavoriteMovieSelected(item: PopularMovieList) {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
         findNavController().navigate(
             ListNewsFragmentDirections.actionListNewsFragmentToDetailNewsFragment(
                 item.toDto()

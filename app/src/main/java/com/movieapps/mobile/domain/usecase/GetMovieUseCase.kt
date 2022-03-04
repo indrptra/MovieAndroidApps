@@ -22,13 +22,16 @@ class GetMovieUseCase @Inject constructor(private val repository: NewsRepository
                 2 -> repository.getNowPlayingMovie(params.page)
                 3 -> repository.getReviewMovie(params.page, params.id!!)
                 4 -> repository.getFavoriteMovie()
-                else -> repository.getItemFavoriteMovie(id = params.id!!)
+                5 -> repository.getItemFavoriteMovie(id = params.id!!)
+                6 -> repository.setItemFavoriteMovie(data = params.data!!)
+                else -> repository.deleteItemFavoriteMovie(data = params.data!!)
             }
         }
 
     data class MovieParam(
         val page: Int,
         val type: Int,
-        val id: String? = ""
+        val id: String? = "",
+        val data: PopularMovieList? = null
     )
 }

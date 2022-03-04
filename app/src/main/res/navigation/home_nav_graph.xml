@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_listNewsFragment_to_favoriteMovieFragment"
             app:destination="@id/favoriteMovieFragment" />
+        <action
+            android:id="@+id/action_favoriteMovieFragment_to_detailNewsFragment"
+            app:destination="@id/detailNewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailNewsFragment"
